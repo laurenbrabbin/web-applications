@@ -25,3 +25,17 @@ names=Joe,Alice,Zoe,Julia,Kieran
 
 # Expected response (sorted list of names):
 Alice,Joe,Julia,Kieran,Zoe
+
+
+## Exercise 3
+
+Test-drive and update the GET /hello route so it returns the greeting message as an HTML page:
+
+<html>
+  <head></head>
+  <body>
+    <h1>Hello!</h1>
+  </body>
+</html>
+
+Then, make sure your server is running using rackup and use your web browser to access the page.

@@ -1,4 +1,5 @@
 require_relative 'artist'
+require_relative 'database_connection'
 
 class ArtistRepository
   def all

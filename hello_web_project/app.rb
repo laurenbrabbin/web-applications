@@ -3,8 +3,7 @@ require 'sinatra/reloader'
 
 class Application < Sinatra::Base
   get '/hello' do
-    name = params[:name]
-    return "Hello #{name}"
+    return erb(:index) #name of the file in view
   end
   
   post '/submit' do

@@ -1,4 +1,5 @@
 require_relative 'album'
+require_relative 'database_connection'
 
 class AlbumRepository
   def all
