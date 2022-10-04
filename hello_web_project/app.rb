@@ -12,6 +12,17 @@ class Application < Sinatra::Base
     message = params[:message]
     return "Thanks #{name}, you send this message: #{message}"
   end
+
+  get '/names' do
+    names = params[:names]
+    return "#{names}"
+  end
+
+  post '/sort-names' do
+    names = params[:names]
+    sorted_names = names.split(",").sort.join(",")
+    return "#{sorted_names}"
+  end
   
   # This allows the app code to refresh
   # without having to restart the server.
