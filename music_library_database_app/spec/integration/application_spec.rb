@@ -20,21 +20,6 @@ describe Application do
       expect(response.body).to include('<a href="/albums/4">Super Trouper</a><br />')
     end
   end
-  context "POST /albums" do
-    it "should create a new album" do
-      response = post(
-        '/albums', 
-        title: 'Voyage', 
-        release_year: '2022', 
-        artist_id: '2')
-      
-      expect(response.status).to eq(200)
-      expect(response.body).to eq('')
-
-      response = get('/albums')
-      expect(response.body).to include('Voyage')
-    end
-  end
   context "GET /artists" do
     it "returns a list of all artists with clickable link" do
       response = get('/artists')
@@ -44,17 +29,65 @@ describe Application do
       expect(response.body).to include('<a href="/artists/3">Taylor Swift</a><br />')
     end
   end
-  context "POST /artists" do
-    it "creates a new artist" do
-      response = post(
-        '/artists',
-        name: 'Wild nothing',
-        genre: 'Indie')
+  context 'GET /artists/new' do
+    it "returns the form pageto create a new artist" do
+      response = get('/artists/new')
 
       expect(response.status).to eq(200)
-      expect(response.body).to eq('')
-      response = get('/artists')
-      expect(response.body).to include('Wild nothing')
+      expect(response.body).to include('<form action="POST" method="/artists">')
+      expect(response.body).to include('<input type="text" name="artist_name">')
+      expect(response.body).to include('<input type="text" name="artist_genre">')
+    end
+  end
+  context 'GET /albums/new' do
+    it "returns the form pageto create a new album" do
+      response = get('/albums/new')
+
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<form action="/albums" method="POST">')
+      expect(response.body).to include('<input type="text" name="album_title">')
+      expect(response.body).to include('<input type="text" name="album_release_year">')
+      expect(response.body).to include('<input type="text" name="album_artist_id">')
+    end
+  end
+  context "POST /albums" do
+    it "returns a success page" do
+      response = post(
+        '/albums', 
+        album_title: 'Dancing Queen', 
+        album_release_year: '1976', 
+        album_artist_id: '2')
+      
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<p>Your album has been added!</p>')
+    end
+    it "responds with 400 status if parameters are invalid" do
+      response = post(
+        '/albums', 
+        title: nil, 
+        release_year: nil, 
+        artist_id: '2')
+      
+      expect(response.status).to eq(400)
+    end
+  end
+  context "POST /artists" do
+    it "returns a success page" do
+      response = post(
+        '/artists', 
+        artist_name: 'Rihanna', 
+        artist_genre: 'Pop')
+      
+      expect(response.status).to eq(200)
+      expect(response.body).to include('<p>Your artist has been added!</p>')
+    end
+    it "responds with 400 status if parameters are invalid" do
+      response = post(
+        '/artists', 
+        fakename: nil, 
+        incorrectgenre: nil)
+      
+      expect(response.status).to eq(400)
     end
   end
   context 'GET /albums/:id' do
